@@ -1,0 +1,33 @@
+
+form {
+    /* Permet au contenant de prendre la largur maximale du contenu. */
+    width: max-content; 
+    /* margin-top: 50px; */
+    margin: auto;
+    margin-top: 10%;
+}
+
+input {
+    width: 300px;
+    height: 35px;
+    /* border-radius: 5px; */
+    border: none;
+    border-bottom: 1px solid thin;
+}
+
+
+#validate {
+    background: white;
+    height: 38px;
+    color: #007bff;
+    border: #007bff solid 1px;
+    width: 100px;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+
+#validate:hover{
+    background: #007bff;
+    color: white;
+    
+}
