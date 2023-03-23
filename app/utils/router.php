@@ -3,8 +3,9 @@
 /**
  * THIS FILE HELPS US TO DISPACTH THE ROUTES AND CALL THE SUITABLE CONTROLLER
  **/
+$cleanRoute = explode('?', $_SERVER['REQUEST_URI']);
 
-$route = $_SERVER['REQUEST_URI']; // Get the request URI
+$route = $cleanRoute[0]; // Get the request URI
 
 if ($route === '/') {
    require_once 'app/core/views/home.php';
@@ -27,7 +28,10 @@ else if ($route === '/logout') {
     $user = new User();
     $user -> logout();
 }
-
+else if ($route === '/post') {
+    require_once 'app/core/views/post.php';
+    
+}
 else {
     echo '404 vous etes perdue ;(';
 }
