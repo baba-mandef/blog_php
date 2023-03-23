@@ -7,7 +7,7 @@
 	  
     private function conn(){
 		// Create and return a database connection stream
-        require_once 'app/config.php';
+        require 'app/config.php';
       
         $data_base_connector = new PDO('mysql:host='.$DB_HOST.';dbname='.$DB_NAME, $DB_USER, $DB_PASS);
         return $data_base_connector;
