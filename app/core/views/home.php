@@ -32,8 +32,9 @@
 
     }
     else{
-        echo ' Welcome to the ambassador blog';
-        echo '<a href="/login">Connexion</a>';
+        echo ' Welcome to the ambassador blog <br>'; 
+        echo '<a href="/login">Connexion</a> <br>';
+        echo '<a href="/register">Inscription</a>';
 
     }
 ?>
