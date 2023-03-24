@@ -3,6 +3,19 @@
  * THIS FILE CONTAINS SOME UTILS FUNCTIONS
 **/
 
+
+function search($word)
+{ // fonction du moteur de recherche
+    // cette fontion prend en paramètre le mot clé de la recherche
+    // la recherche se fait en fonction du titre et de la description
+    $query = preg_replace("#[^a-zA-Z ?0-9]#i", "", $word); // nettoyage du mot clé
+    $sql = "SELECT * FROM plans WHERE name LIKE ? OR description LIKE ? OR ville LIKE ?"; // requete de reherche
+    require('connect_db.php'); // récupération de l'objet de connection à la base de données 
+    $req = $db -> prepare($sql); 
+    $req -> execute(array('%'.$query.'%', '%'.$query.'%', '%'.$query.'%')); // execution de la requete de recherche
+    return $req;
+}
+
 // upload and return the uploaded file link
 function file_upload($dir, $file)
 {

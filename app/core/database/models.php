@@ -47,6 +47,27 @@
 			return $read_request;
 		}
 
+		public function read_filter_and($table, $fields, $field1, $field2, $field3='', $values)
+		{
+
+			if($field3!=''){
+				// get and return a database object
+			$db=$this->conn();
+			$read_request=$db->prepare('SELECT '.$fields.' FROM '.$table.' WHERE '.$field1.'=? AND '.$field2.'=? AND '.$field3.'=?');
+			$read_request->execute($values);
+			return $read_request;
+			}
+			else{
+
+			// get and return a database object
+			$db=$this->conn();
+			$read_request=$db->prepare('SELECT '.$fields.' FROM '.$table.' WHERE '.$field1.'=? AND '.$field2.'=?');
+			$read_request->execute($values);
+			return $read_request;
+			
+			}
+
+		}
   }
 // author @ptahemdjehuty
 ?>

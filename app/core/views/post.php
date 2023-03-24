@@ -43,7 +43,58 @@
 
                 }
     ?>
-    
+
+                <hr>
+
+                <h3>Section commentaires</h3>
+
+                <hr>
+
+                <?php
+
+                    $comments = $post -> get_comment($payload['id']);
+
+                    while($comment=$comments->fetch()){
+
+                        $user = $post -> get_comment_author($comment['author']);
+
+                        $author_name = $user->fetch();
+
+                        echo '
+                        
+
+                                <h4>'.$author_name['username'].' </h4>
+                                <p>'.$comment['body'].'</p>
+
+
+                                <button onclick="display_form('.$comment['id'].')" >Repondre</button>
+
+                                <form action="" id="'.$comment['id'].'" method="POST" hidden>
+                
+                                    <label for="reply">Repondre</label> <br>
+                                    <textarea name="reply" id="reply" placeholder="saisissez votre reponse" cols="30" rows="10"></textarea> <br>
+                                    <input type="submit" name="_reply" value="Envoyer"> 
+                                </form>
+                
+                                <hr>
+                              
+
+                        ';
+
+                        if(isset($_POST['_reply']))
+
+                        {
+                            $post -> reply_to_comment($_POST['reply'], $_SESSION['user_info'][0]['id'], $payload['id'], $comment['id']);
+                        }
+
+                    }
+
+
+                ?>
+
+               
+
+    <script src="/public/js/main.js"></script>
 </body>
 </html>
 
