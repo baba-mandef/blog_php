@@ -99,9 +99,12 @@ class Post
 
         $table = 'comment';
         $fields = '*';
-        $sfields = 'post';
+        $field1 = 'post';
+        $field2 = 'is_reply';
+        $field3 = '';
 
-        $query = $database->read_filter_once($table, $fields, $sfields, array($post_id));
+
+        $query = $database->read_filter_and($table, $fields, $field1, $field2, $field3, array($post_id, 0));
         return $query;
     }
 

@@ -8,6 +8,7 @@
 </head>
 <body>
     <?php
+        session_start();
         $slug = $_GET['slug'];
         require_once 'app/core/controllers/post.php';
 
@@ -27,14 +28,14 @@
     <form action="" method="POST">
         <label for="comment">Ajouter un commentaire</label> <br>
         <textarea name="comment" id="comment" placeholder="Saisissez votre commentaire" cols="30" rows="10"></textarea>
-        <input type="submit" value="ajouter">
+        <input type="submit" name='send_comment' value="ajouter">
     </form>
 
     <?php
 
-            if($_SERVER['REQUEST_METHOD']=='POST')
+            if(isset($_POST['send_comment']))
                 {
-                    session_start();
+                   
                     $body = $_POST['comment'];
                     $author = $_SESSION['user_info'][0]['id'];
                     $post_id = $payload['id'];
@@ -53,6 +54,7 @@
                 <?php
 
                     $comments = $post -> get_comment($payload['id']);
+             
 
                     while($comment=$comments->fetch()){
 
@@ -73,6 +75,9 @@
                 
                                     <label for="reply">Repondre</label> <br>
                                     <textarea name="reply" id="reply" placeholder="saisissez votre reponse" cols="30" rows="10"></textarea> <br>
+                                   
+                                    <input type="text" hidden name="parent" value="'.$comment['id'].'">
+                                   
                                     <input type="submit" name="_reply" value="Envoyer"> 
                                 </form>
                 
@@ -81,13 +86,35 @@
 
                         ';
 
-                        if(isset($_POST['_reply']))
+                        $replies = $post -> get_replies($payload['id'], $comment['id']);
 
-                        {
-                            $post -> reply_to_comment($_POST['reply'], $_SESSION['user_info'][0]['id'], $payload['id'], $comment['id']);
+                        while($reply = $replies->fetch()){
+
+                            $_user = $post -> get_comment_author($reply['author']);
+
+                            $_author_name = $_user->fetch();
+
+                            echo '
+                            
+                           <div style="margin-left:50px">
+                           <h4>'.$_author_name['username'].' </h4>
+                           <p>'.$reply['body'].'</p>
+                           <hr>
+                           </div>
+                            
+                            ';
+
                         }
 
+                      
                     }
+
+                    if(isset($_POST['_reply']))
+
+                    {
+                        $post -> reply_to_comment($_POST['reply'], $_SESSION['user_info'][0]['id'], $payload['id'], $_POST['parent']);
+                    }
+
 
 
                 ?>
