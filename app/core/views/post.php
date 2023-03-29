@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
     <title>Document</title>
 </head>
 <body>
@@ -43,8 +44,31 @@
                     $post -> add_comment($body, $author, $post_id);
 
                 }
+            
+                $is_liked = $post -> check_like($payload['id'],  $_SESSION['user_info'][0]['id'])
+
     ?>
 
+                <hr>
+                    <form action="" method="POST">
+                        <button type="submit" name="like"> <?php
+                            
+
+                           
+                         if($is_liked==false){
+                                echo '<i class="fa-regular fa-heart"></i>';
+                         }
+                         else{
+                            echo ' <i class="fa fa-heart"></i>';
+                         }
+                         
+                        if(isset($_POST['like']))
+                        {
+                            $post->like_post($payload['id'], $_SESSION['user_info'][0]['id'], $is_liked);
+                        }
+
+                         ?> </button>
+                    </form>
                 <hr>
 
                 <h3>Section commentaires</h3>

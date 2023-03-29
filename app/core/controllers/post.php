@@ -150,9 +150,62 @@ class Post
         return $database -> read_filter_and($table, $fields, $field1, $field2, $field3, array($post, 1, $parent));
     }
 
-    public function like_post($post, $author)
-    {
 
-        return 0;
+    public function check_like($post, $author){
+
+        require_once 'app/core/database/models.php';
+
+        $database = new Model();
+
+        $table = 'like_post';
+        $fields = '*';
+        $field1 = 'author';
+        $field2 = 'post';
+        $field3 = '';
+      
+        $query = $database -> read_filter_and($table, $fields, $field1, $field2, $field3, array($author, $post));
+
+        $is_liked = $query ->fetch();
+
+        if($is_liked!=null){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    public function like_post($post, $author, $is_liked)
+    {
+        require_once 'app/core/database/models.php';
+
+        $database = new Model();
+
+        if($is_liked==true){
+
+        $table = 'like_post';
+        $field1 = 'author';
+        $field2 = 'post';
+
+        $database->delete($table, $field1, $field2, array($author, $post));
+
+
+        }
+
+        else{
+
+
+        $table = 'like_post';
+        $fields = 'author, post';
+        $values = '?,?';
+
+        $database -> add($table, $fields, $values, array($author, $post));
+        
+
+        }
+
+
+       
     }
 }
